@@ -1,0 +1,8 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="honeycomb" x="0" y="0" width="28" height="49" patternUnits="userSpaceOnUse">
+      <path d="M14 0l14 24.25L14 48.5H0L-14 24.25L0 0h14z" fill="none" stroke="rgba(245, 158, 11, 0.1)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#honeycomb)"/>
+</svg>
