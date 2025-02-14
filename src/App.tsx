@@ -3,6 +3,7 @@ import { Menu, X, Phone, Mail, MapPin, ChevronDown, Calendar } from 'lucide-reac
 import BookingModal from './components/BookingModal';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
+import About from './components/About'; // Import About section
 import Venues from './components/Venues';
 import Gallery from './components/Gallery';
 import Team from './components/Team';
@@ -19,6 +20,7 @@ function App() {
       {/* Main Content */}
       <main>
         <Hero />
+        <About /> {/* Added About section here */}
         <Venues />
         <Gallery />
         <Team />

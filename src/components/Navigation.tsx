@@ -9,14 +9,15 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const navItems = [
     { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' }, // Added About section
     { name: 'Venues', href: '#venues' },
     { name: 'Gallery', href: '#gallery' },
-    { name: 'Our Team', href: '#team' },
+    { name: 'Speciality', href: '#speciality' },
     { name: 'Contact', href: '#contact' },
   ];
 
   return (
-    <nav className="fixed w-full z-50 bg-black/80 backdrop-blur-sm transition-all duration-300">
+    <nav className="fixed w-full z-50 bg-gradient-to-r from-gray-900 via-black to-gray-900 backdrop-blur-sm transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -58,17 +59,16 @@ const Navigation: React.FC<NavigationProps> = ({ isMenuOpen, setIsMenuOpen }) =>
 
       {/* Mobile menu with animation */}
       <div
-        className={`md:hidden fixed inset-0 bg-black/95 backdrop-blur-sm transform transition-transform duration-500 ease-in-out 
-        ${isMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
+        className={`md:hidden fixed inset-0 bg-black/95 backdrop-blur-sm transition-all duration-500 ease-in-out flex flex-col items-center justify-center z-50
+  ${isMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
       >
         <div className="px-6 pt-8 pb-6 space-y-4 text-center">
           {navItems.map((item, index) => (
             <a
               key={item.name}
               href={item.href}
-              className="block text-gray-300 hover:text-amber-500 text-lg font-medium transition-all duration-300
-              opacity-0 translate-y-4 animate-slide-in"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="block text-gray-300 hover:text-amber-500 text-lg font-medium transition-all duration-300 transform translate-y-4 opacity-0 animate-fade-in"
+              style={{ animationDelay: `${index * 100}ms`, animationFillMode: "forwards" }}
               onClick={() => setIsMenuOpen(false)}
             >
               {item.name}

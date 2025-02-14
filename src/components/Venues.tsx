@@ -4,20 +4,6 @@ import { motion } from "framer-motion";
 const Venues = () => {
   const venues = [
     {
-      name: "Luxury Hotel Suites",
-      image:
-        "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-      price: "Starting from ₹15,000 per night",
-      capacity: "Various room types available",
-      features: [
-        "Premium king-size beds",
-        "24/7 room service",
-        "Ocean view options",
-        "Private balcony",
-        "Luxury amenities",
-      ],
-    },
-    {
       name: "Grand Ballroom",
       image:
         "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
@@ -57,7 +43,7 @@ const Venues = () => {
           Our Venues & Accommodations
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
           {venues.map((venue, index) => (
             <motion.div
               key={venue.name}

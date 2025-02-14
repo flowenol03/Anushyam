@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Twitter, Instagram } from 'lucide-react';
 
 const Contact = () => {
   return (
@@ -29,21 +29,32 @@ const Contact = () => {
             {[
               { icon: Phone, title: 'Call Us', detail: '+91 123457890' },
               { icon: Mail, title: 'Email Us', detail: 'info@luxuryhaven.com' },
-              { icon: MapPin, title: 'Visit Us', detail: '123 Luxury Avenue, Mumbai, India' }
-            ].map(({ icon: Icon, title, detail }, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 100 }}
-                className="flex items-center space-x-4 p-4 rounded-lg bg-gray-800/60 backdrop-blur-md shadow-lg hover:shadow-amber-500/50 transition-all duration-300"
-              >
-                <Icon className="text-amber-500 animate-pulse" size={28} />
-                <div>
-                  <h3 className="text-white font-medium">{title}</h3>
-                  <p className="text-gray-300">{detail}</p>
-                </div>
-              </motion.div>
-            ))}
+              { icon: MapPin, title: 'Visit Us', detail: '123 Luxury Avenue, Mumbai, India', link: 'https://maps.app.goo.gl/Bdzy2qERzUJipiD28' }
+            ].map(({ icon: Icon, title, detail, link }, index) => {
+              const container = (
+                <motion.div
+                  key={index}
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 100 }}
+                  className="flex items-center space-x-4 p-4 rounded-lg bg-gray-800/60 backdrop-blur-md shadow-lg hover:shadow-amber-500/50 transition-all duration-300 cursor-pointer"
+                >
+                  <Icon className="text-amber-500 animate-pulse" size={28} />
+                  <div>
+                    <h3 className="text-white font-medium">{title}</h3>
+                    <p className="text-gray-300">{detail}</p>
+                  </div>
+                </motion.div>
+              );
+
+              return link ? (
+                <a key={index} href={link} target="_blank" rel="noopener noreferrer" className="block">
+                  {container}
+                </a>
+              ) : (
+                container
+              );
+            })}
+
           </motion.div>
 
           {/* Contact Form with Glassmorphism */}
@@ -53,7 +64,7 @@ const Contact = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="space-y-6 bg-gray-800/40 backdrop-blur-lg p-8 rounded-2xl shadow-lg border border-gray-700"
           >
-            {['Your Name', 'Your Email', 'Your Message'].map((placeholder, index) => (
+            {["Your Name", "Your Email", "Your Message"].map((placeholder, index) => (
               <motion.div
                 key={index}
                 whileFocus={{ scale: 1.05 }}
@@ -87,37 +98,53 @@ const Contact = () => {
           </motion.form>
         </div>
 
-        {/* Animated Credits */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="mt-20 text-center"
-        >
-          <p className="text-gray-400 hover:text-amber-500 transition-colors duration-300">
-            Website Designed & Developed by{" "}
-            <a
-              href="https://flowenolportfolio.netlify.app/" // Replace with your actual portfolio URL
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-amber-500 transition-colors duration-300 underline"
-            >
-              Prathamesh Khandekar
-            </a>
-          </p>
-
-        </motion.div>
-
-        {/* Copyright Section */}
-        <motion.div
+        {/* Footer Section */}
+        <motion.footer
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
-          className="mt-4 text-center text-gray-500 text-sm"
+          className="mt-20 py-10 border-t border-gray-700 text-gray-400"
         >
-          &copy; {new Date().getFullYear()} AnuShyam. All rights reserved.
-        </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+            {/* Short Description */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">AnuShyam</h3>
+              <p className="text-gray-400">Experience luxury and comfort like never before at AnuShyam, your ultimate getaway destination.</p>
+            </div>
 
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Quick Links</h3>
+              <ul className="space-y-2">
+                <li><a href="#home" className="hover:text-amber-500">Home</a></li>
+                <li><a href="#about" className="hover:text-amber-500">About</a></li>
+                <li><a href="#services" className="hover:text-amber-500">Services</a></li>
+                <li><a href="#contact" className="hover:text-amber-500">Contact</a></li>
+              </ul>
+            </div>
+
+            {/* Services */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Services</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-amber-500">Luxury Stay</a></li>
+                <li><a href="#" className="hover:text-amber-500">Fine Dining</a></li>
+                <li><a href="#" className="hover:text-amber-500">Event Hosting</a></li>
+              </ul>
+            </div>
+
+            {/* Connect With Us */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Connect With Us</h3>
+              <div className="flex space-x-4 justify-center md:justify-start">
+                <a href="#" className="hover:text-amber-500"><Facebook size={24} /></a>
+                <a href="#" className="hover:text-amber-500"><Twitter size={24} /></a>
+                <a href="#" className="hover:text-amber-500"><Instagram size={24} /></a>
+              </div>
+            </div>
+          </div>
+          <p className="text-center mt-6">&copy; {new Date().getFullYear()} AnuShyam. All rights reserved. | Created by <a href="https://flowenolportfolio.netlify.app/" className="text-amber-500 hover:underline" target="_blank" rel="noopener noreferrer">Prathamesh Khandekar</a></p>
+        </motion.footer>
       </div>
     </section>
   );

@@ -1,18 +1,32 @@
-import React from "react";
-import { ChevronDown } from "lucide-react";
+import React, { useState } from "react";
+import { ChevronDown, Volume2, VolumeX } from "lucide-react";
+import videoBg from "../assets/video.mp4"; // Ensure the correct path to your video file
 
 const Hero = () => {
+  const [isMuted, setIsMuted] = useState(true);
+
+  const toggleMute = () => {
+    setIsMuted((prev) => !prev);
+  };
+
   return (
     <section id="home" className="relative h-screen overflow-hidden">
-      {/* Background with Parallax Effect */}
+      {/* Background Video */}
       <div className="absolute inset-0 bg-black">
-        <div
-          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1505236858219-8359eb29e329?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')] 
-            bg-cover bg-center transform scale-110 animate-slow-pan"
+        <video
+          autoPlay
+          loop
+          muted={isMuted}
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover"
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/80" />
-          <div className="absolute inset-0 bg-[url('/honeycomb.svg')] bg-repeat opacity-20 animate-pulse" />
-        </div>
+          <source src={videoBg} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/80" />
+        <div className="absolute inset-0 bg-[url('/honeycomb.svg')] bg-repeat opacity-20 animate-pulse" />
       </div>
 
       {/* Blinking Stars */}
@@ -55,6 +69,15 @@ const Hero = () => {
           <ChevronDown className="animate-bounce" size={24} />
         </a>
       </div>
+
+      {/* Mute/Unmute Button */}
+      <button
+        onClick={toggleMute}
+        className="absolute bottom-6 left-6 bg-black/60 p-3 rounded-full text-white hover:bg-black/80 transition"
+        aria-label={isMuted ? "Unmute Video" : "Mute Video"}
+      >
+        {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+      </button>
 
       {/* Tailwind Animations */}
       <style>
