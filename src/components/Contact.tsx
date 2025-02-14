@@ -29,7 +29,7 @@ const Contact = () => {
             {[
               { icon: Phone, title: 'Call Us', detail: '+91 123457890' },
               { icon: Mail, title: 'Email Us', detail: 'info@luxuryhaven.com' },
-              { icon: MapPin, title: 'Visit Us', detail: '123 Luxury Avenue, Mumbai, India', link: 'https://maps.app.goo.gl/Bdzy2qERzUJipiD28' }
+              { icon: MapPin, title: 'Visit Us', detail: 'Anushyam Mangal Karayalay Herle, Kolhapur', link: 'https://maps.app.goo.gl/Bdzy2qERzUJipiD28' }
             ].map(({ icon: Icon, title, detail, link }, index) => {
               const container = (
                 <motion.div
