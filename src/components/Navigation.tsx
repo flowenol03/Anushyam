@@ -60,14 +60,14 @@ const Navigation: React.FC<NavigationProps> = ({ isMenuOpen, setIsMenuOpen }) =>
       {/* Mobile menu with animation */}
       <div
         className={`md:hidden fixed inset-0 bg-black/95 backdrop-blur-sm transition-all duration-500 ease-in-out flex flex-col items-center justify-center z-50
-  ${isMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+  ${isMenuOpen ? 'opacity-100 scale-100 h-screen' : 'opacity-0 scale-95 pointer-events-none'}`}
       >
-        <div className="px-6 pt-8 pb-6 space-y-4 text-center">
+        <div className="w-full px-6 pt-20 pb-6 space-y-6 text-center flex flex-col">
           {navItems.map((item, index) => (
             <a
               key={item.name}
               href={item.href}
-              className="block text-gray-300 hover:text-amber-500 text-lg font-medium transition-all duration-300 transform translate-y-4 opacity-0 animate-fade-in"
+              className="block text-gray-300 hover:text-amber-500 text-lg font-medium transition-all duration-300 transform opacity-0 animate-fade-in"
               style={{ animationDelay: `${index * 100}ms`, animationFillMode: "forwards" }}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -76,6 +76,7 @@ const Navigation: React.FC<NavigationProps> = ({ isMenuOpen, setIsMenuOpen }) =>
           ))}
         </div>
       </div>
+
     </nav>
   );
 };
