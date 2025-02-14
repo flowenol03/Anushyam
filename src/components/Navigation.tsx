@@ -1,19 +1,22 @@
-import React from 'react';
-import { Menu, X } from 'lucide-react';
+import React from "react";
+import { Menu, X } from "lucide-react";
 
 interface NavigationProps {
   isMenuOpen: boolean;
   setIsMenuOpen: (isOpen: boolean) => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ isMenuOpen, setIsMenuOpen }) => {
+const Navigation: React.FC<NavigationProps> = ({
+  isMenuOpen,
+  setIsMenuOpen,
+}) => {
   const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' }, // Added About section
-    { name: 'Venues', href: '#venues' },
-    { name: 'Gallery', href: '#gallery' },
-    { name: 'Speciality', href: '#speciality' },
-    { name: 'Contact', href: '#contact' },
+    { name: "Home", href: "#home" },
+    { name: "About", href: "#about" },
+    { name: "Venues", href: "#venues" },
+    { name: "Gallery", href: "#gallery" },
+    { name: "Speciality", href: "#speciality" },
+    { name: "Contact", href: "#contact" },
   ];
 
   return (
@@ -49,34 +52,42 @@ const Navigation: React.FC<NavigationProps> = ({ isMenuOpen, setIsMenuOpen }) =>
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`text-gray-300 hover:text-white transition-transform duration-300 ${isMenuOpen ? 'rotate-90' : 'rotate-0'}`}
+              className="text-gray-300 hover:text-white transition-transform duration-300"
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? <X size={30} /> : <Menu size={30} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu with animation */}
+      {/* Mobile Menu (Slides from Top) */}
       <div
-        className={`md:hidden fixed inset-0 bg-black/95 backdrop-blur-sm transition-all duration-500 ease-in-out flex flex-col items-center justify-center z-50
-  ${isMenuOpen ? 'opacity-100 scale-100 h-screen' : 'opacity-0 scale-95 pointer-events-none'}`}
+        className={`fixed top-0 left-0 w-full bg-black/95 backdrop-blur-md transition-transform duration-500 ease-in-out z-50 
+        ${isMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"}`}
       >
-        <div className="w-full px-6 pt-20 pb-6 space-y-6 text-center flex flex-col">
-          {navItems.map((item, index) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="block text-gray-300 hover:text-amber-500 text-lg font-medium transition-all duration-300 transform opacity-0 animate-fade-in"
-              style={{ animationDelay: `${index * 100}ms`, animationFillMode: "forwards" }}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {item.name}
-            </a>
-          ))}
+        <div className="w-full flex flex-col">
+          {/* Close button inside menu */}
+          <div className="flex justify-end p-6">
+            <button onClick={() => setIsMenuOpen(false)} className="text-gray-300 hover:text-amber-500">
+              <X size={32} />
+            </button>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="flex flex-col items-center space-y-6 py-8">
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-gray-300 hover:text-amber-500 text-lg font-medium transition-all duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
-
     </nav>
   );
 };
