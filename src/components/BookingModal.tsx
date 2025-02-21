@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import Swal from 'sweetalert2';
-import emailjs from '@emailjs/browser';
+import emailjs from "emailjs-com";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -14,10 +14,14 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const [date, setDate] = useState('');
   const [guests, setGuests] = useState('');
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(''); // Store user email input
   const [phone, setPhone] = useState('');
   const [eventType, setEventType] = useState('');
   const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [otp, setOtp] = useState('');
+  const [generatedOtp, setGeneratedOtp] = useState('');
+  const [isOtpSent, setIsOtpSent] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
 
   if (!isOpen) return null;
 
@@ -25,15 +29,15 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const halls = {
     small: {
       name: 'Intimate Hall',
-      basePrice: 150000,
-      cateringPrice: 200000, // With catering
+      basePrice: 7000,
+      cateringPrice: 20000, // With catering
       capacity: '100-150 guests',
       description: 'Perfect for intimate gatherings and celebrations'
     },
     grand: {
       name: 'Grand Ballroom',
-      basePrice: 350000,
-      cateringPrice: 500000, // With catering
+      basePrice: 15000,
+      cateringPrice: 40000, // With catering
       capacity: '300-500 guests',
       description: 'Ideal for grand weddings and large-scale events'
     }
@@ -48,6 +52,81 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     'Other'
   ];
 
+  const sendOtp = () => {
+    if (!email) {
+        Swal.fire({
+            icon: "warning",
+            title: "Email Required",
+            text: "Please enter your email before requesting an OTP.",
+            showConfirmButton: true,
+            confirmButtonColor: "#3085d6",
+        });
+        return;
+    }
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString(); // Generate a 6-digit OTP
+    setGeneratedOtp(otpCode);
+
+    // EmailJS service details for OTP
+    const serviceId = "service_v6ncbeq";  // Replace with your EmailJS Service ID
+    const templateId = "template_lmkkolo"; // Replace with your EmailJS Template ID for OTP
+    const userId = "IxrMx0MS4zfCx0rkB"; // Replace with your EmailJS Public Key
+
+    const templateParams = {
+        user_email: email, // Use email instead of userEmail (ensuring consistency)
+        otp_code: otpCode, // Pass generated OTP
+    };
+
+    setIsLoading(true); // Show loading state before sending
+
+    emailjs.send(serviceId, templateId, templateParams, userId)
+    .then((response) => {
+        console.log("OTP sent successfully:", response);
+
+        Swal.fire({
+            icon: "success",
+            title: "OTP Sent!",
+            text: `An OTP has been sent to ${email}. Please check your inbox.`,
+            showConfirmButton: true,
+            confirmButtonColor: "#3085d6",
+        });
+
+        setIsOtpSent(true);
+    })
+    .catch((error) => {
+        console.error("OTP sending error:", error);
+
+        Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: "Failed to send OTP. Please try again later.",
+            showConfirmButton: true,
+            confirmButtonColor: "#d33",
+        });
+    })
+    .finally(() => {
+        setIsLoading(false); // Hide loading state after the request completes
+    });
+
+};
+
+  const verifyOtp = () => {
+    setIsVerifyingOtp(true);
+    if (otp === generatedOtp) {
+      // If OTP is correct, proceed to submit the booking
+      handleSubmit();
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid OTP!',
+        text: 'The OTP you entered is incorrect. Please try again.',
+        showConfirmButton: true,
+        confirmButtonColor: '#d33'
+      });
+      setIsVerifyingOtp(false);
+    }
+  };
+
   const handleSubmit = () => {
     if (!name || !email || !phone || !date || !hallType || !guests || !eventType) {
       Swal.fire({
@@ -59,16 +138,16 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       });
       return;
     }
-
+  
     // Set loading state to true
     setIsLoading(true);
-
-    // EmailJS service details
-    const serviceId = "service_4rnu2vj";  // Replace with your EmailJS Service ID
-    const templateId = "template_2dah8ll"; // Replace with your EmailJS Template ID
-    const userId = "MMMJPdnp2NI9WaaFR"; // Replace with your EmailJS Public Key
-
-    // Prepare email parameters
+  
+    // EmailJS service details for booking confirmation
+    const serviceId = "service_e2eyjg3";  // Replace with your EmailJS Service ID
+    const templateId = "template_3q7auok"; // Replace with your EmailJS Template ID for booking confirmation
+    const userId = "IxrMx0MS4zfCx0rkB"; // Replace with your EmailJS Public Key
+  
+    // Prepare email parameters for booking confirmation
     const emailParams = {
       to_email: "itsdevilkk@gmail.com", // Your email address to receive the booking details
       customer_name: name,
@@ -80,14 +159,14 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       catering_option: catering === 'with' ? 'With Catering' : 'Without Catering',
       number_of_guests: guests
     };
-
+  
     // Send email using EmailJS
     emailjs.send(serviceId, templateId, emailParams, userId)
       .then(() => {
         Swal.fire({
           icon: 'success',
           title: 'Booking Submitted!',
-          text: 'Thank you for your booking request! Our team will contact you shortly.',
+          text: 'Thank you for choosing AnuShaam Mangal Karayalay! Our team will contact you shortly.',
           showConfirmButton: true,
           confirmButtonColor: '#3085d6'
         }).then(() => {
@@ -125,7 +204,27 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
         {isLoading ? (
           <div className="flex items-center justify-center">
             <div className="loader"></div> {/* Add your loading spinner here */}
-            <span className="ml-2">Sending your booking...</span>
+            <span className="ml-2">Processing...</span>
+          </div>
+        ) : isOtpSent ? (
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Enter OTP *</label>
+              <input
+                type="text"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                placeholder="Enter the OTP sent to your email"
+                required
+              />
+              <button
+                className="mt-2 w-full bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition-all duration-300"
+                onClick={verifyOtp}
+              >
+                Verify OTP
+              </button>
+            </div>
           </div>
         ) : (
           <div className="space-y-6">
@@ -263,12 +362,13 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            {/* Submit Button */}
+            {/* Send OTP Button */}
             <button
               className="w-full bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 transition-all duration-300"
-              onClick={handleSubmit}
+              onClick={sendOtp}
+              disabled={isLoading}
             >
-              Confirm Booking
+              {isLoading ? "Sending..." : "Send OTP"}
             </button>
           </div>
         )}

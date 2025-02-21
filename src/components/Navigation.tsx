@@ -26,7 +26,7 @@ const Navigation: React.FC<NavigationProps> = ({
           {/* Logo */}
           <div className="flex-shrink-0">
             <h1 className="text-2xl font-serif text-amber-500 transition-transform duration-300 hover:scale-110">
-              AnuShyam
+              AnuShaam
             </h1>
           </div>
 

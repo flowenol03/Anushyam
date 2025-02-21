@@ -7,7 +7,7 @@ const Venues = () => {
       name: "Grand Ballroom",
       image:
         "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-      price: "₹3,50,000",
+      price: "₹18,000",
       capacity: "300-500 guests",
       features: [
         "Crystal chandeliers",
@@ -20,7 +20,7 @@ const Venues = () => {
       name: "Intimate Hall",
       image:
         "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-      price: "₹1,50,000",
+      price: "₹7,000",
       capacity: "100-150 guests",
       features: [
         "Elegant décor",

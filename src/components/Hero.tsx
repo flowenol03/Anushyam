@@ -49,7 +49,7 @@ const Hero = () => {
       <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-white drop-shadow-[0_0_10px_white] mb-3 animate-zoom-in">
           Welcome to{" "}
-          <span className="text-amber-500 animate-text-glow">AnuShyam</span>
+          <span className="text-amber-500 animate-text-glow">AnuShaam</span>
         </h1>
         <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif text-amber-500 
   [text-shadow:0_0_15px_white] mb-6">

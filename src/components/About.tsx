@@ -47,12 +47,12 @@ const About = () => {
                 animation: "gradientShift 3s infinite alternate"
               }}
             >
-              Anushyam Mangal Karyalay
+              Anushaam Mangal Karyalay
             </span>
           </h2>
 
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            A premier venue designed for grand celebrations, Anushyam Mangal Karyalay offers a
+            A premier venue designed for grand celebrations, Anushaam Mangal Karyalay offers a
             perfect blend of tradition and modernity. Whether it's a wedding, reception, or any 
             special occasion, we ensure a delightful experience with impeccable hospitality.
           </p>

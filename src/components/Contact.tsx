@@ -27,9 +27,9 @@ const Contact = () => {
             className="space-y-8"
           >
             {[
-              { icon: Phone, title: 'Call Us', detail: '+91 123457890' },
-              { icon: Mail, title: 'Email Us', detail: 'info@luxuryhaven.com' },
-              { icon: MapPin, title: 'Visit Us', detail: 'Anushyam Mangal Karayalay Herle, Kolhapur', link: 'https://maps.app.goo.gl/Bdzy2qERzUJipiD28' }
+              { icon: Phone, title: 'Call Us', detail: '+91 9420132495', link: 'tel:+919420132495' },
+              { icon: Mail, title: 'Email Us', detail: 'anushyammangalkarayalay@gmail.com', link: 'mailto:anushyammangalkarayalay@gmail.com' },
+              { icon: MapPin, title: 'Visit Us', detail: 'Anushaam Mangal Karayalay Herle, Kolhapur', link: 'https://maps.app.goo.gl/Bdzy2qERzUJipiD28' }
             ].map(({ icon: Icon, title, detail, link }, index) => {
               const container = (
                 <motion.div
@@ -108,8 +108,8 @@ const Contact = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
             {/* Short Description */}
             <div>
-              <h3 className="text-lg font-semibold text-white mb-3">AnuShyam</h3>
-              <p className="text-gray-400">Experience luxury and comfort like never before at AnuShyam, your ultimate getaway destination.</p>
+              <h3 className="text-lg font-semibold text-white mb-3">AnuShaam</h3>
+              <p className="text-gray-400">Experience luxury and comfort like never before at AnuShaam, your ultimate getaway destination.</p>
             </div>
 
             {/* Quick Links */}
@@ -139,11 +139,12 @@ const Contact = () => {
               <div className="flex space-x-4 justify-center md:justify-start">
                 <a href="#" className="hover:text-amber-500"><Facebook size={24} /></a>
                 <a href="#" className="hover:text-amber-500"><Twitter size={24} /></a>
-                <a href="#" className="hover:text-amber-500"><Instagram size={24} /></a>
-              </div>
+                <a href="https://www.instagram.com/anushaam_multipurposehall?igsh=MXdkdG1qc3pmazJlMg==" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500">
+    <Instagram size={24} />
+  </a>              </div>
             </div>
           </div>
-          <p className="text-center mt-6">&copy; {new Date().getFullYear()} AnuShyam. All rights reserved. | Created by <a href="https://flowenolportfolio.netlify.app/" className="text-amber-500 hover:underline" target="_blank" rel="noopener noreferrer">Prathamesh Khandekar</a></p>
+          <p className="text-center mt-6">&copy; {new Date().getFullYear()} AnuShaam. All rights reserved. | Created by <a href="https://flowenolportfolio.netlify.app/" className="text-amber-500 hover:underline" target="_blank" rel="noopener noreferrer">Prathamesh Khandekar</a></p>
         </motion.footer>
       </div>
     </section>

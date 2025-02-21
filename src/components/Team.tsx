@@ -50,7 +50,7 @@ const Speciality = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
           >
-            Experience excellence with Anushyam Mangal Karayalay
+            Experience excellence with Anushaam Mangal Karayalay
           </motion.p>
         </div>
 
