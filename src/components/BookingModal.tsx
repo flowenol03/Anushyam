@@ -433,17 +433,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Number of Guests *</label>
-                <input
-                  type="number"
-                  value={guests}
-                  onChange={(e) => setGuests(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                  min="1"
-                  required
-                />
-              </div>
             </div>
 
             {/* Total Price Display */}
