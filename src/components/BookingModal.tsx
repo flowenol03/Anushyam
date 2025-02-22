@@ -206,6 +206,13 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     return price;
   };
 
+  // Calculate total price based on selected hall, catering type, and number of guests
+  const totalPrice = () => {
+    const guestCount = parseInt(guests) || 0;
+    const hallPrice = calculateHallPrice(hallType);
+    return hallPrice + (catering === 'with' ? (cateringType === 'veg' ? guestCount * 200 : guestCount * 300) : 0);
+  };
+
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg max-w-2xl w-full p-6 relative animate-fade-scale max-h-[90vh] overflow-y-auto">
@@ -437,6 +444,14 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                   required
                 />
               </div>
+            </div>
+
+            {/* Total Price Display */}
+            <div className="mt-4">
+              <h4 className="text-lg font-medium text-gray-900">Total Price: (without Decoration)</h4>
+              <p className="text-amber-600 font-semibold">
+                ₹{totalPrice().toLocaleString()}
+              </p>
             </div>
 
             {/* Send OTP Button */}
