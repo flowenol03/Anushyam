@@ -11,6 +11,7 @@ interface BookingModalProps {
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const [hallType, setHallType] = useState('');
   const [catering, setCatering] = useState('without'); // Default: Without Catering
+  const [cateringType, setCateringType] = useState(''); // State for catering type
   const [date, setDate] = useState('');
   const [guests, setGuests] = useState('');
   const [name, setName] = useState('');
@@ -22,22 +23,21 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const [generatedOtp, setGeneratedOtp] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [decoration, setDecoration] = useState('none'); // Default: No Decoration
 
   if (!isOpen) return null;
 
   // Hall pricing based on catering selection
   const halls = {
     small: {
-      name: 'Intimate Hall',
+      name: 'Mini Hall',
       basePrice: 7000,
-      cateringPrice: 20000, // With catering
       capacity: '100-150 guests',
       description: 'Perfect for intimate gatherings and celebrations'
     },
     grand: {
-      name: 'Grand Ballroom',
+      name: 'Big Hall',
       basePrice: 15000,
-      cateringPrice: 40000, // With catering
       capacity: '300-500 guests',
       description: 'Ideal for grand weddings and large-scale events'
     }
@@ -54,14 +54,14 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
 
   const sendOtp = () => {
     if (!email) {
-        Swal.fire({
-            icon: "warning",
-            title: "Email Required",
-            text: "Please enter your email before requesting an OTP.",
-            showConfirmButton: true,
-            confirmButtonColor: "#3085d6",
-        });
-        return;
+      Swal.fire({
+        icon: "warning",
+        title: "Email Required",
+        text: "Please enter your email before requesting an OTP.",
+        showConfirmButton: true,
+        confirmButtonColor: "#3085d6",
+      });
+      return;
     }
 
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString(); // Generate a 6-digit OTP
@@ -73,42 +73,41 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     const userId = "IxrMx0MS4zfCx0rkB"; // Replace with your EmailJS Public Key
 
     const templateParams = {
-        user_email: email, // Use email instead of userEmail (ensuring consistency)
-        otp_code: otpCode, // Pass generated OTP
+      user_email: email, // Use email instead of userEmail (ensuring consistency)
+      otp_code: otpCode, // Pass generated OTP
     };
 
     setIsLoading(true); // Show loading state before sending
 
     emailjs.send(serviceId, templateId, templateParams, userId)
-    .then((response) => {
+      .then((response) => {
         console.log("OTP sent successfully:", response);
 
         Swal.fire({
-            icon: "success",
-            title: "OTP Sent!",
-            text: `An OTP has been sent to ${email}. Please check your inbox.`,
-            showConfirmButton: true,
-            confirmButtonColor: "#3085d6",
+          icon: "success",
+          title: "OTP Sent!",
+          text: `An OTP has been sent to ${email}. Please check your inbox.`,
+          showConfirmButton: true,
+          confirmButtonColor: "#3085d6",
         });
 
         setIsOtpSent(true);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error("OTP sending error:", error);
 
         Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: "Failed to send OTP. Please try again later.",
-            showConfirmButton: true,
-            confirmButtonColor: "#d33",
+          icon: "error",
+          title: "Error!",
+          text: "Failed to send OTP. Please try again later.",
+          showConfirmButton: true,
+          confirmButtonColor: "#d33",
         });
-    })
-    .finally(() => {
+      })
+      .finally(() => {
         setIsLoading(false); // Hide loading state after the request completes
-    });
-
-};
+      });
+  };
 
   const verifyOtp = () => {
     setIsVerifyingOtp(true);
@@ -138,15 +137,15 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       });
       return;
     }
-  
+
     // Set loading state to true
     setIsLoading(true);
-  
+
     // EmailJS service details for booking confirmation
     const serviceId = "service_e2eyjg3";  // Replace with your EmailJS Service ID
     const templateId = "template_3q7auok"; // Replace with your EmailJS Template ID for booking confirmation
     const userId = "IxrMx0MS4zfCx0rkB"; // Replace with your EmailJS Public Key
-  
+
     // Prepare email parameters for booking confirmation
     const emailParams = {
       to_email: "itsdevilkk@gmail.com", // Your email address to receive the booking details
@@ -156,10 +155,11 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       event_type: eventType,
       event_date: date,
       hall_name: halls[hallType].name,
-      catering_option: catering === 'with' ? 'With Catering' : 'Without Catering',
-      number_of_guests: guests
+      catering_option: catering === 'with' ? (cateringType === 'veg' ? 'Veg Thali (₹200/person)' : 'Non-Veg Thali (₹300/person)') : 'Without Catering',
+      number_of_guests: guests,
+      decoration_option: decoration === 'none' ? 'No Decoration' : (decoration === 'basic' ? 'Basic Decoration' : 'Premium Decoration')
     };
-  
+
     // Send email using EmailJS
     emailjs.send(serviceId, templateId, emailParams, userId)
       .then(() => {
@@ -187,6 +187,23 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
         // Set loading state to false after the email is sent
         setIsLoading(false);
       });
+  };
+
+  // Calculate hall price based on catering type
+  const calculateHallPrice = (hallKey: string) => {
+    let price = 0;
+
+    if (catering === 'with') {
+      if (cateringType === 'veg') {
+        price = hallKey === 'small' ? 37000 : 115000; // Mini Hall: 37000, Big Hall: 100000
+      } else if (cateringType === 'non-veg') {
+        price = hallKey === 'small' ? 52000 : 165000; // Mini Hall: 45000, Big Hall: 150000
+      }
+    } else {
+      price = hallKey === 'small' ? halls.small.basePrice : halls.grand.basePrice;
+    }
+
+    return price;
   };
 
   return (
@@ -304,7 +321,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                   >
                     <h3 className="font-semibold text-lg">{hall.name}</h3>
                     <p className="text-amber-600 font-medium">
-                      {catering === 'with' ? `₹${hall.cateringPrice.toLocaleString()}` : `₹${hall.basePrice.toLocaleString()}`}
+                      ₹{calculateHallPrice(key).toLocaleString()}
                     </p>
                     <p className="text-sm text-gray-600">{hall.capacity}</p>
                     <p className="text-sm text-gray-500 mt-2">{hall.description}</p>
@@ -321,7 +338,10 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                   className={`w-full py-2 border rounded-lg text-center ${
                     catering === 'with' ? 'bg-amber-600 text-white' : 'border-gray-300 text-gray-700'
                   }`}
-                  onClick={() => setCatering('with')}
+                  onClick={() => {
+                    setCatering('with');
+                    setCateringType(''); // Reset catering type when switching to with catering
+                  }}
                 >
                   With Catering
                 </button>
@@ -329,9 +349,66 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                   className={`w-full py-2 border rounded-lg text-center ${
                     catering === 'without' ? 'bg-amber-600 text-white' : 'border-gray-300 text-gray-700'
                   }`}
-                  onClick={() => setCatering('without')}
+                  onClick={() => {
+                    setCatering('without');
+                    setCateringType(''); // Reset catering type when switching to without catering
+                  }}
                 >
                   Without Catering
+                </button>
+              </div>
+              {catering === 'with' && (
+                <div className="mt-4">
+                  <h4 className="text-md font-medium text-gray-900 mb-2">Select Catering Type *</h4>
+                  <div className="flex gap-4">
+                    <button
+                      className={`w-full py-2 border rounded-lg text-center ${
+                        cateringType === 'veg' ? 'bg-amber-600 text-white' : 'border-gray-300 text-gray-700'
+                      }`}
+                      onClick={() => setCateringType('veg')}
+                    >
+                      Veg Thali (₹200/person)
+                    </button>
+                    <button
+                      className={`w-full py-2 border rounded-lg text-center ${
+                        cateringType === 'non-veg' ? 'bg-amber-600 text-white' : 'border-gray-300 text-gray-700'
+                      }`}
+                      onClick={() => setCateringType('non-veg')}
+                    >
+                      Non-Veg Thali (₹300/person)
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Decoration Option */}
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Decoration Option *</h3>
+              <div className="flex gap-4">
+                <button
+                  className={`w-full py-2 border rounded-lg text-center ${
+                    decoration === 'basic' ? 'bg-amber-600 text-white' : 'border-gray-300 text-gray-700'
+                  }`}
+                  onClick={() => setDecoration('basic')}
+                >
+                  Basic Decoration
+                </button>
+                <button
+                  className={`w-full py-2 border rounded-lg text-center ${
+                    decoration === 'premium' ? 'bg-amber-600 text-white' : 'border-gray-300 text-gray-700'
+                  }`}
+                  onClick={() => setDecoration('premium')}
+                >
+                  Premium Decoration
+                </button>
+                <button
+                  className={`w-full py-2 border rounded-lg text-center ${
+                    decoration === 'none' ? 'bg-amber-600 text-white' : 'border-gray-300 text-gray-700'
+                  }`}
+                  onClick={() => setDecoration('none')}
+                >
+                  No Decoration
                 </button>
               </div>
             </div>
