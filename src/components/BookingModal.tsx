@@ -127,7 +127,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleSubmit = () => {
-    if (!name || !email || !phone || !date || !hallType || !guests || !eventType) {
+    if (!name || !email || !phone || !date || !hallType || !eventType) {
       Swal.fire({
         icon: 'warning',
         title: 'Oops...',
@@ -156,7 +156,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       event_date: date,
       hall_name: halls[hallType].name,
       catering_option: catering === 'with' ? (cateringType === 'veg' ? 'Veg Thali (₹200/person)' : 'Non-Veg Thali (₹300/person)') : 'Without Catering',
-      number_of_guests: guests,
       decoration_option: decoration === 'none' ? 'No Decoration' : (decoration === 'basic' ? 'Basic Decoration' : 'Premium Decoration')
     };
 
@@ -433,6 +432,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                   required
                 />
               </div>
+              
             </div>
 
             {/* Total Price Display */}
